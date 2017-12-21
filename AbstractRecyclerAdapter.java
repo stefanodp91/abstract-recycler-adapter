@@ -172,15 +172,23 @@ public abstract class AbstractRecyclerAdapter<T extends Object, U extends Recycl
     /**
      * Update an item with a new value
      *
-     * @param item     the item
-     * @param position the position
+     * @param item the item
      */
-    public void update(T item, int position) {
-        if (item != null && position >= 0) {
-            remove(position);
-            insertTop(item);
+    public void update(T item) {
+        if (item != null) {
 
-            // no need to notifyDataSetChanged() because is done by remove and insert
+            if (item != null) {
+                List<T> list = getItems();
+
+                int itemPosition = list.indexOf(item);
+
+                if (itemPosition >= 0 && itemPosition < list.size()) {
+                    list.set(itemPosition, item);
+                } else {
+                    list.add(item);
+                }
+                notifyDataSetChanged();
+            }
         }
     }
 
